@@ -11,19 +11,19 @@ String loginRequestToJson(LoginRequest data) => json.encode(data.toJson());
 class LoginRequest {
   LoginRequest({
     required this.password,
-    required this.username,
+    required this.email,
   });
 
   final String password;
-  final String username;
+  final String email;
 
   factory LoginRequest.fromJson(Map<String, dynamic> json) => LoginRequest(
     password: json["password"],
-    username: json["username"],
+    email: json["email"],
   );
 
   Map<String, dynamic> toJson() => {
     "password": password ,
-    "username": username ,
+    "email": email ,
   };
 }

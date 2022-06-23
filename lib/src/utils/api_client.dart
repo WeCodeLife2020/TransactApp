@@ -6,22 +6,28 @@ import 'package:dio/dio.dart';
 
 import 'object_factory.dart';
 
-
 enum AccessMode { READ, WRITE }
+
 HeaderModel authHeaderModel = new HeaderModel();
 
-void setAuthHeaderModel(
-    {var accessMode, String? xReferenceId}) {
-  if(ObjectFactory().appHive != null && ObjectFactory().appHive.getToken() != null && ObjectFactory().appHive.getToken().trim().length > 0)
-    authHeaderModel.authorization ="Bearer "+ObjectFactory().appHive.getToken();
+void setAuthHeaderModel({var accessMode, String? xReferenceId}) {
+  if (ObjectFactory().appHive != null &&
+      ObjectFactory().appHive.getToken() != null &&
+      ObjectFactory().appHive.getToken().trim().length > 0)
+    authHeaderModel.authorization =
+        "Bearer " + ObjectFactory().appHive.getToken();
   authHeaderModel.xAccessMode = accessMode.toString();
   authHeaderModel.xUdid = "";
   authHeaderModel.xRequestTime = "";
   authHeaderModel.xReferenceId = xReferenceId;
   authHeaderModel.xSession = "";
-  if(ObjectFactory().appHive != null && ObjectFactory().appHive.getXUser() != null && ObjectFactory().appHive.getXUser().trim().length > 0)
+  if (ObjectFactory().appHive != null &&
+      ObjectFactory().appHive.getXUser() != null &&
+      ObjectFactory().appHive.getXUser().trim().length > 0)
     authHeaderModel.xUser = ObjectFactory().appHive.getXUser();
-  if(ObjectFactory().appHive != null && ObjectFactory().appHive.getUserId() != null && ObjectFactory().appHive.getUserId().trim().length > 0)
+  if (ObjectFactory().appHive != null &&
+      ObjectFactory().appHive.getUserId() != null &&
+      ObjectFactory().appHive.getUserId().trim().length > 0)
     authHeaderModel.xUserId = ObjectFactory().appHive.getUserId();
   // print("Token "+authHeaderModel.xTenantId);
 }
@@ -36,13 +42,19 @@ class ApiClient {
 
   ///  user login
   Future<Response> loginRequest(LoginRequest loginRequest) {
-    print(loginRequest.toString());
+    print("provider");
 
     return ObjectFactory()
         .appDio
-        .loginPost(url: Urls.baseUrl, data: loginRequest, header: loginModel);
+        .loginPost(url: Urls.loginUrl, data: loginRequest, header: loginModel);
   }
 
+   ///  user login
+  Future<Response> AllInquiriesRequest() {
+    print("provider");
+
+    return ObjectFactory()
+        .appDio
+        .AllInquiriesGet(url: Urls.allInquiries, data: AllInquiriesRequest, header: loginModel);
+  }
 }
-
-

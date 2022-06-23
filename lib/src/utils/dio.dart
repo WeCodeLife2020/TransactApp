@@ -8,8 +8,6 @@ import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/material.dart';
 
-
-
 class AppDio {
   AppDio() {
     initClient();
@@ -21,9 +19,8 @@ class AppDio {
   Dio? dio;
   BaseOptions? _baseOptions;
 
-
   initClient() async {
-    _baseOptions = new BaseOptions(
+    _baseOptions = BaseOptions(
         baseUrl: Urls.baseUrl,
         connectTimeout: 30000,
         receiveTimeout: 1000000,
@@ -66,16 +63,31 @@ class AppDio {
 
   ///dio login post
   Future<Response> loginPost({String? url, HeaderModel? header, var data}) {
-    dio!.options.headers.addAll({
-      "X-Session": header!.xSession,
-      "X-RequestTime": header.xRequestTime,
-      "X-UDID": header.xUdid,
-      "X-ReferenceId": header.xReferenceId,
-      "X-AccessMode": header.xAccessMode,
-    });
+    // dio!.options.headers.addAll({
+    //   "X-Session": header!.xSession,
+    //   "X-RequestTime": header.xRequestTime,
+    //   "X-UDID": header.xUdid,
+    //   "X-ReferenceId": header.xReferenceId,
+    //   "X-AccessMode": header.xAccessMode,
+    // });
+    print("client");
 
     return dio!.post(url!, data: data);
   }
+
+    Future<Response> AllInquiriesGet({String? url, HeaderModel? header, var data}) {
+    // dio!.options.headers.addAll({
+    //   "X-Session": header!.xSession,
+    //   "X-RequestTime": header.xRequestTime,
+    //   "X-UDID": header.xUdid,
+    //   "X-ReferenceId": header.xReferenceId,
+    //   "X-AccessMode": header.xAccessMode,
+    // });
+    print("AllInquiriesRequest");
+
+    return dio!.post(url!, data: data);
+  }
+
 
   ///dio  post
   Future<Response> post({String? url, HeaderModel? header, var data}) {

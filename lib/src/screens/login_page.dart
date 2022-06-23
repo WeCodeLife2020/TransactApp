@@ -3,12 +3,36 @@ import 'package:app_template/src/utils/utils.dart';
 import 'package:app_template/src/widgets/build_Textinputs.dart';
 import 'package:flutter/material.dart';
 
+import '../bloc/user_bloc.dart';
+import '../models/login_request_model.dart';
+import '../utils/object_factory.dart';
+
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
+bool isLoading = false;
+TextEditingController usernameTextEditingController =
+    TextEditingController(text: "xeroadmin@thepromptsolutions.com");
+TextEditingController passwordTextEditingController =
+    TextEditingController(text: "q");
+
 class _LoginPageState extends State<LoginPage> {
+  UserBloc userBloc = UserBloc();
+
+  @override
+  void initState() {
+    userBloc.loginResponse.listen((event) async {
+      // print(event.errorCode.toString());
+      // print("object1");
+    }).onError((event) {
+      print(">>>>>>>>>>>>>>>");
+    });
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +52,10 @@ class _LoginPageState extends State<LoginPage> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: BuildTextFieldInputs(
-                  hintlabel: "Username", labelicon: Icons.person),
+                textinputcontroller: usernameTextEditingController,
+                hintlabel: "Username",
+                labelicon: Icons.person,
+              ),
             ),
             SizedBox(
               height: screenHeight(context, dividedBy: 90),
@@ -37,7 +64,10 @@ class _LoginPageState extends State<LoginPage> {
               padding: const EdgeInsets.only(
                   left: 15.0, right: 15.0, top: 15, bottom: 0),
               child: BuildTextFieldInputs(
-                  hintlabel: "Password", labelicon: Icons.key),
+                  isPassword: true,
+                  textinputcontroller: passwordTextEditingController,
+                  hintlabel: "Password",
+                  labelicon: Icons.key),
             ),
             SizedBox(
               height: screenHeight(context, dividedBy: 90),
@@ -61,6 +91,11 @@ class _LoginPageState extends State<LoginPage> {
                   borderRadius: BorderRadius.circular(20)),
               child: FlatButton(
                 onPressed: () {
+                  userBloc.login(
+                      loginRequest: LoginRequest(
+                          email: usernameTextEditingController.text,
+                          password: passwordTextEditingController.text));
+
                   Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -78,7 +113,7 @@ class _LoginPageState extends State<LoginPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("New User ?"),
+                const Text("New User ?"),
                 TextButton(
                   onPressed: () {
                     debugPrint("new account page");
